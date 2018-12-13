@@ -1,5 +1,6 @@
 package com.xware.instasurvey;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -67,8 +69,15 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        Button bNew= (Button)findViewById(R.id.btnNew);
+ bNew.setOnClickListener(new View.OnClickListener() {
+     @Override
+     public void onClick(View view) {
+         Intent i= new Intent(view.getContext(),com.xware.instasurvey.AddQuestionActivity.class);
+         startActivity(i);
 
-
+     }
+ });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
