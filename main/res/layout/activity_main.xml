@@ -27,20 +27,66 @@
 
 
         </android.support.v7.widget.Toolbar>
-        <Button
-            android:id="@+id/btnNew"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Create New Survey"
-        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnNew"
+                android:layout_width="114dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Create New Survey" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="91dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="0dp"
+                android:text="Submit Survey" />
+
+            <Button
+                android:id="@+id/btnShowAnswers"
+                android:layout_width="91dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Show Answers" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="449dp"
+            android:layout_height="128dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bSurvey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="switch survey" />
+
+            <EditText
+                android:id="@+id/surveyNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:text="1"/>
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginLeft="15dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

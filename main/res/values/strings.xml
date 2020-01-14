@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_add_question">AddQuestionActivity</string>
+    <string name="title_survey_list">SurveyAnswers</string>
+    <string name="title_survey_detail">Survey Detail</string>
+    <string name="title_question_list">Questions</string>
+    <string name="title_question_detail">Question Detail</string>
 </resources>
