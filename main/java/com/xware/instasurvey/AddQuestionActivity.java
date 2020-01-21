@@ -130,7 +130,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 EditText fd6 = (EditText) findViewById(R.id.eta4);
                 EditText fd7 = (EditText) findViewById(R.id.eta5);
                 String f1 = fd1.getText().toString();
-                String f2 = fd2.getText().toString();
+                String f2 = fd0.getText().toString();
                 String f3 = fd3.getText().toString();
                 String f4 = fd4.getText().toString();
                 String f5 = fd5.getText().toString();

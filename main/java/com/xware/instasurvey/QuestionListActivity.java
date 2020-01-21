@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,14 +100,14 @@ private List<Question> getQuestions(Integer sid){
             @Override
             public void onClick(View view) {
 
-              //  QuestionContent.QuestionItem item = (QuestionContent.QuestionItem) view.getTag();
-               Integer i =(Integer) view.getTag();
-
+                //  QuestionContent.QuestionItem item = (QuestionContent.QuestionItem) view.getTag();
+                Integer i = Integer.parseInt(view.getTag().toString());
+                try{
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-               //     arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
-                    arguments.putString(QuestionDetailFragment.ARG_ITEM_ID,i+"");
-                            QuestionDetailFragment fragment = new QuestionDetailFragment();
+                    //     arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
+                    arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, i + "");
+                    QuestionDetailFragment fragment = new QuestionDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.question_detail_container, fragment)
@@ -114,11 +115,16 @@ private List<Question> getQuestions(Integer sid){
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, QuestionDetailActivity.class);
-                 //   intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
-                    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, i+"");
+                    //   intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
+                    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, i + "");
 
 
                     context.startActivity(intent);
+                }
+                }
+                catch(Exception e){
+                    Log.e("answer click exception",e.getMessage());
+
                 }
             }
         };
@@ -140,18 +146,19 @@ private List<Question> getQuestions(Integer sid){
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+            mValues.sort();
             holder.mIdView.setText(mValues.get(position).id+"");
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.itemView.setTag(mValues.get(position)+"");
             holder.itemView.setOnClickListener(mOnClickListener);
         }
-
+        public List<QuestionContent.QuestionItem> sort
         @Override
         public int getItemCount() {
             return mValues.size();
         }
-
+         
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;

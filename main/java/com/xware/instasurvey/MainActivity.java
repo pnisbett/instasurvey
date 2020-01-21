@@ -1,91 +1,43 @@
 package com.xware.instasurvey;
 
-
-
 import android.content.Context;
-
 import android.content.Intent;
-
 import android.graphics.Color;
-
 import android.os.Parcelable;
-
 import android.support.constraint.ConstraintLayout;
-
 import android.support.design.widget.FloatingActionButton;
-
 import android.support.design.widget.Snackbar;
-
 import android.support.v4.app.FragmentPagerAdapter;
-
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.support.v7.widget.Toolbar;
-
-
-
 import android.support.v4.app.Fragment;
-
 import android.support.v4.app.FragmentManager;
-
 // import android.support.v4.app.FragmentPagerAdapter;
-
 // import android.support.v4.view.ViewPager;
-
 import android.os.Bundle;
-
 import android.text.Layout;
-
 import android.util.Log;
-
 import android.view.Gravity;
-
 import android.view.LayoutInflater;
-
 import android.view.Menu;
-
 import android.view.MenuItem;
-
 import android.view.View;
-
 import android.view.ViewGroup;
-
-
-
 import android.widget.Button;
-
 import android.widget.EditText;
-
 import android.widget.LinearLayout;
-
 import android.widget.RadioButton;
-
 import android.widget.RadioGroup;
-
 import android.widget.RelativeLayout;
-
 import android.widget.TableRow;
-
 import android.widget.TextView;
-
-
-
 import java.util.ArrayList;
-
 import java.util.Arrays;
-
 import java.util.List;
-
-
-
 import android.view.ViewGroup.LayoutParams;
-
-
-
 import common.DBHelper;
 
 
@@ -118,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public  static ArrayList<String> answers;
 
-    public static ArrayList<String> responseAnswer;
+    public static ArrayList<Answer> responseAnswer;
 
     /**
 
@@ -153,33 +105,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //  qa = getQuestionsDemo();
-
         qa= getQuestions(1);
-
-
-
         // initialize answer array
-
         answers = new ArrayList<String>();
-
-        responseAnswer = new ArrayList<String>();
+        responseAnswer = new ArrayList<Answer>();
 
         for (int i = 0; i < qa.size(); i++){
-
             answers.add("");
-
-            responseAnswer.add("");
+         //   responseAnswer.add("");
 
         }
 
         // Create the adapter that will return a fragment for each of the three
-
         // primary sections of the activity.
-
         // pn    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-
-
         // Set up the ViewPager with the sections adapter.
 
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -201,94 +140,48 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
 
 // update the page fragment
-
-                //     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-
-
-                // Set up the ViewPager with the sections adapter.
-
                 mViewPager = (ViewPager) findViewById(R.id.container);
-
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-
             }
 
         });
 
-
-
         Button bSave= (Button)findViewById(R.id.btnSave);
-
         bSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View view) {
-               EditText sn=(EditText)findViewById(R.id.surveyNumber);
-      //          EditText sn=(EditText)findViewById(R.id.surveyNumber);
-        //        EditText sn=(EditText)findViewById(R.id.surveyNumber);
                 db = new DBHelper(view.getContext());
-
                 Integer qid =0;
-
                 Integer sid =0;
-
-                try{
-
-                    sid = Integer.parseInt(sn.getText().toString());
-
-                }
-
-                catch(Exception e){
-
-                    Log.e("SaveButton", "onClick: ", e);
-
-                }
-
-                qa= getQuestions(sid);
-
-
-
+                EditText sn=(EditText)findViewById(R.id.surveyNumber);
+                String s =sn.getText().toString();
+                if (s.equals(""))
+                    s="0";
+                sid= Integer.parseInt(s);
                 String answer ="";
-
-
-int cnt =0;
-int i =0;
+                int cnt =0;
+                int i =0;
+                saveResponseAnswers(responseAnswer);
                 for(Question q:qa) {
-
                     qid=q.getId().intValue();
-
                     sid=q.getSurveyId();
-
                     RadioGroup rg=(RadioGroup)findViewById(q.id);
                     if (rg != null) {
                         int c = rg.getChildCount();
                         for (int ii=0;ii<c;ii++) {
                             RadioButton rb =(RadioButton)rg.getChildAt(ii);
                             if (rb.isChecked())
-                             answer=   rb.getText().toString();
+                                rb.setChecked(false);
+
                         }
                     }
-                    //  answer=q.getAnswers();
-
-                    db.insertAnswer(0, qid, sid, answer);
-
                 }
-
                 mViewPager.setCurrentItem(0);
-
-
-
             }
 
         });
-
-
-
-
 
         Button bSurvey= (Button)findViewById(R.id.bSurvey);
 
@@ -354,32 +247,20 @@ int i =0;
                 String answer ="";
 
                 Context c = view.getContext();
-/*
 
-                View v1 =  mViewPager.getChildAt(0);//new monday
-                View v2 =  mViewPager.getChildAt(1);
-
-                if ((v1 != null) && (v2 != null)) {
-
-                    mViewPager.removeViewAt(1);
-                    mViewPager.removeViewAt(0);  // end new monday
-                    //        mSectionsPagerAdapter.mFragmentList.remove(f);
-                    cnt --;
-                }
-*/
                 if (cnt <0 )
                     cnt=0;
                 for(Question q:qa) {
                //     qid=q.getId().intValue();
                     sid=q.getSurveyId()+cnt;
-                    qid =sid+cnt;
+                    qid =q.seqId ; //sid+cnt;
                     ArrayList<String> sa = q.getAnswers();
                     String[] sAnswer = {"","",""};
                     //sa.toArray(sAnswer);
                     Integer i =1;
                     Integer qqid =1;
                     String[] saa= getStringArray(sa); //{"","",""};
-                    RadioGroup rg= PlaceholderFragment.makeAnswerGroup(qid,saa,c);
+                    RadioGroup rg= PlaceholderFragment.makeAnswerGroup(surveyId,qid,saa,c);
                     TextView tv = new TextView(view.getContext());
 tv.setId(qid);
                     tv.setText(q.id+""+q.question);
@@ -487,19 +368,52 @@ tv.setId(qid);
 
     }
 
-    private static  void AddToAnswers(int qid,String a){
+    private static  void AddToAnswers(Integer qid,String an){
 
         //  if (answers.get(q).equals("")){
 
         //      responseAnswer.ensureCapacity(6);
+     //   if (am==null)
+       //     an="";
 
-        while ( responseAnswer.size()<qid+1)
-            responseAnswer.add("");
+        while ( answers.size()<qid+1)
+            answers.add(an);
 
-        responseAnswer.set(qid,a);
+        answers.set(qid,an);
 
     }
 
+    private  static void AddToResponseAnswers(Answer a){
+
+        //  if (answers.get(q).equals("")){
+
+        //      responseAnswer.ensureCapacity(6);
+        //   if (am==null)
+        //     an="";
+       // Answer a= new Answer(surveyId,qid,an);
+    //    while ( Answer.size()<qid+1)
+            responseAnswer.add(a);
+
+      //  responseAnswer.set(qid,a);
+
+    }
+     public Integer saveResponseAnswers(ArrayList<Answer> al){
+         long l=-1;
+        for (int i=0;i<al.size();i++) {
+            Answer a = new Answer(al.get(i).surveyId,al.get(i).questionId,al.get(i).answer);
+
+           try {
+            l=   db.insertAnswer(a.surveyId, a.questionId, a.answer);
+           }
+           catch (Exception e){
+               Log.e("SAVERESPONSE",e.getMessage());
+               return -1;
+            }
+
+        }
+
+        return Long.valueOf(l).intValue();
+     }
 
 
     private static ArrayList<Question>  getQuestions() {
@@ -785,7 +699,12 @@ tv.setId(qid);
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
 
                                  Bundle savedInstanceState) {
-
+Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+"");
+            View v = (View)container.getParent();
+            EditText etSnum=(EditText)v.findViewById(R.id.surveyNumber);
+            int sid = Integer.parseInt(etSnum.getText().toString());
+            Log.e("QUESTION PARENT CONTAINER","container id = "+v.getId()+"");
+            Log.e("QUESTION Survey NUMBER =","survey number = "+etSnum.getText().toString()+"");
             int height = 0;
 
             int width =0;
@@ -824,7 +743,7 @@ tv.setId(qid);
 
             String[]sa =this.answers;
 
-            RadioGroup rg =makeAnswerGroup(this.sectionNumber, sa ,this.getContext());
+            RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext());
 
             //   LinearLayout ll =rootView.findViewById(R.id.container);
 
@@ -894,34 +813,32 @@ tv.setId(qid);
 
 
 
-        public static RadioGroup makeAnswerGroup(Integer qid, String[] sa ,Context c ){
-
+        public static RadioGroup makeAnswerGroup(Integer sid,Integer qid, String[] sa ,Context c ){
+    //   public static RadioGroup makeAnswerGroup(Answer a ,Context c ){
             // RadioGroup rg = new RadioGroup(this.getContext());
 
             RadioGroup rg = new RadioGroup(c);
-rg.setId(qid);
+            rg.setId(qid);
             int idx = 0;
 
-            final int q2 =qid.intValue();
+            final int q2 =  qid.intValue();
+            final int fsid = sid.intValue();
 
             LayoutParams lp = new LayoutParams(
 
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
             int cur=0;
+// Long l =Math.round(Math.random());
 
             for(String s:sa) {
 
                 //   RadioButton rb = new RadioButton(this.getContext());
-
                 RadioButton rb = new RadioButton(c);
-
                 rb.setText(s);
-
                 rb.setId(q2 * 100 + idx+1);
-
                 rg.addView(rb,idx,lp);
-
+final String fs =s;
                 rb.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -933,8 +850,8 @@ rg.setId(qid);
                         if (rb2.isChecked()){
 
                             //    AddToAnswers(q2, rb2.getId());
-
-                            AddToAnswers(q2,rb2.getText().toString());
+                            Answer a=Answer.makeAnswer(fsid,q2,fs);
+                            AddToResponseAnswers(a);
 
 
 

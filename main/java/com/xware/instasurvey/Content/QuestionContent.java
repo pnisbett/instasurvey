@@ -62,13 +62,15 @@ public class QuestionContent {
 
         addItem(createQuestionItem(0,"survey id|quest id|answer|count "));
     while (it.hasNext()) {
-//        Map.Entry<Integer,String> e =
-        Integer i = it.next().getKey();
+        Map.Entry<Integer,String> e =it.next();
+        Integer i = e.getKey();
+
+                //   Integer i = it.next().getKey();
         String s="";
         try {
-           s = it.next().getValue();
+           s = e.getValue();
         }
-        catch(java.util.NoSuchElementException e){
+        catch(java.util.NoSuchElementException ex){
             s= " record number i throws " + "NoSuchElement Exception";
         }
         addItem(createQuestionItem(i,s));

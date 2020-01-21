@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import com.xware.instasurvey.Question;
 
-
+//import androidx.room.query;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "MyDBName.db";
@@ -117,14 +117,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 */
 
-    public Integer insertAnswer(Integer questionid,Integer surveyId,Integer question, String answer1) {
+    public Integer insertAnswer(Integer surveyId,Integer question, String answer1) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put ("survey_id",surveyId);
+        contentValues.put("question_seq", question);
         contentValues.put("question", question);
-        contentValues.put("answer", answer1);
+        contentValues.put("answer1", answer1);
 
-
+     //   id INTEGER primary key autoincrement,survey_id INTEGER,question_seq INTEGER,question INTEGER,answer1 TEXT
         long id= db.insert("answers", null, contentValues);
         if (id < 0)
             return -1 ;
@@ -137,8 +138,8 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] sa= {surveyId+""};
         int ct=-1;
-     //  Cursor c= db.rawQuery("select * from questions where survey_id = ?",sa);
-        Cursor c= db.rawQuery("select * from questions",null);// where survey_id = ?",sa);
+       Cursor c= db.rawQuery("select * from questions where survey_id = ?",sa);
+     //   Cursor c= db.rawQuery("select * from questions",null);// where survey_id = ?",sa);
         if (c != null) {
          ct= c.getCount();
         }
@@ -248,9 +249,14 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public  HashMap<Integer,String> getAllResponses(){
         SQLiteDatabase db = this.getWritableDatabase();
-   //     String[] sa= {surveyId+""};
-        Cursor c= db.rawQuery("select survey_id, question ,answer1, count(answer1) cnt from answers group by survey_id,question,answer1",null);
-// cols = id INTEGER primary key autoincrement,survey_id INTEGER,question INTEGER,answer1 TEXT";
+        String[] sa= {0+""};
+        Cursor c= db.rawQuery("select survey_id, question ,answer1, count(answer1) 'cnt' from answers group by survey_id,question,answer1",new String[0]);
+     //   String[] sa=new String[0];
+        Cursor c1= db.rawQuery("select * from answers where survey_id > ? order by survey_id,question", sa);
+// survey_id INTEGER,question_seq INTEGER,question INTEGER,answer1 TEXT
+    //    Cursor c= db.SimpleSQLiteQuery("select survey_id, question ,answer1, count(answer1) cnt from answers group by survey_id,question,answer1");
+
+        // cols = id INTEGER primary key autoincrement,survey_id INTEGER,question INTEGER,answer1 TEXT";
         int ct=c.getCount();
         int cc = c.getColumnCount();
         HashMap<Integer,String> hm = new HashMap<Integer,String>();
@@ -259,15 +265,18 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             hm.put(i,"survey id|quest id|answer|count ");
             while (!c.isAfterLast()) {
-                Integer sid=c.getInt(0);
-                Integer sidoffset = 6-sid.toString().length();
+        //        Integer sid=c.getInt(0);
+         //       Integer sidoffset = 6-sid.toString().length();
 
-                Integer quid =c.getInt(1);
-                Integer quidoffset = 6-quid.toString().length();
-                String answer =c.getString(2);
+                Integer sid =c.getInt(0);
+                Integer sidoffset = 6-sid.toString().length();
+                Integer quid  =c.getInt(1);
+                Integer quidoffset = 6-sid.toString().length();
+                String answer =c.getString(2)+"";
                 Integer  aoffset = 10 - answer.length();
                 Integer qcount =c.getInt(3);
                 Integer coffset= 7-qcount.toString().length();
+
                 String ret = "|" + padArray[sidoffset]+sid+"|"+ padArray[quidoffset]+quid+"|"+ padArray[aoffset]+answer+"|"+padArray[coffset]+qcount +"|" ;
             // Question q = new Question(i1,i2,sq,sa1,sa2,sa3,sa4,sa5);
 
