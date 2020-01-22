@@ -14,7 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import java.util.Comparator;
+import java.util.Collections;
 import com.xware.instasurvey.dummy.DummyContent;
 import com.xware.instasurvey.Content.QuestionContent;
 import java.util.List;
@@ -72,6 +73,7 @@ private List<Question> getQuestions(Integer sid){
     ArrayList<Question> qa = new  ArrayList<Question>();
    common.DBHelper dh= new common.DBHelper(this);
      qa= dh.getQuestions( sid);
+
     return qa;
 
    /*
@@ -87,9 +89,21 @@ private List<Question> getQuestions(Integer sid){
 }
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         QuestionContent.createQuestionContent(this);
+        Collections.sort(QuestionContent.ITEMS,new SortById());
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuestionContent.ITEMS, mTwoPane));
     }
+   public class SortById implements Comparator<QuestionContent.QuestionItem>{
+       public int compare(QuestionContent.QuestionItem q1,QuestionContent.QuestionItem q2){
+           return q1.id-q2.id;
 
+       }
+    }
+    public class SortByValues implements Comparator<QuestionContent.QuestionItem>{
+        public int compare(QuestionContent.QuestionItem q1,QuestionContent.QuestionItem q2){
+            return 0 ; //q1.content.-q2.content;
+
+        }
+    }
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
@@ -101,7 +115,7 @@ private List<Question> getQuestions(Integer sid){
             public void onClick(View view) {
 
                 //  QuestionContent.QuestionItem item = (QuestionContent.QuestionItem) view.getTag();
-                Integer i = Integer.parseInt(view.getTag().toString());
+            /*    Integer i = Integer.parseInt(view.getTag().toString());
                 try{
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
@@ -126,6 +140,7 @@ private List<Question> getQuestions(Integer sid){
                     Log.e("answer click exception",e.getMessage());
 
                 }
+                */
             }
         };
 
@@ -146,19 +161,19 @@ private List<Question> getQuestions(Integer sid){
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            mValues.sort();
+
             holder.mIdView.setText(mValues.get(position).id+"");
             holder.mContentView.setText(mValues.get(position).content);
 
             holder.itemView.setTag(mValues.get(position)+"");
             holder.itemView.setOnClickListener(mOnClickListener);
         }
-        public List<QuestionContent.QuestionItem> sort
+
         @Override
         public int getItemCount() {
             return mValues.size();
         }
-         
+
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;

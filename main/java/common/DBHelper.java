@@ -273,7 +273,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 Integer quid  =c.getInt(1);
                 Integer quidoffset = 6-sid.toString().length();
                 String answer =c.getString(2)+"";
-                Integer  aoffset = 10 - answer.length();
+                Integer  aoffset = 50 - answer.length();
                 Integer qcount =c.getInt(3);
                 Integer coffset= 7-qcount.toString().length();
 

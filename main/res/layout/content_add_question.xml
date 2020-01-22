@@ -40,10 +40,10 @@
             android:layout_width="215dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="number"
             android:background="#FFFFFF"
             android:textColor="#000000"
-            android:text=""
+
             />
         <TextView
             android:id="@+id/tvqseq"
@@ -57,7 +57,7 @@
             android:layout_width="215dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:inputType="text"
+            android:inputType="number"
             android:background="#FFFFFF"
             android:textColor="#000000"
             android:text=""
