@@ -61,6 +61,7 @@ import common.DBHelper;
 public class AddQuestionActivity extends AppCompatActivity {
     private DBHelper mydb ;
   //  private SectionsPagerAdapter mSectionsPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,8 @@ public class AddQuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_question);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Button bNew = (Button) findViewById(R.id.btnSurvey);
+
+        Button bSurvey = (Button) findViewById(R.id.btnSurvey);
 
 
         EditText etNum = (EditText) findViewById(R.id.etsid);
@@ -82,10 +84,15 @@ public class AddQuestionActivity extends AppCompatActivity {
             value = extras.getInt("surveyId");
         }
       //  etNum.setText(value+"");
-        bNew.setOnClickListener(new View.OnClickListener() {
+        bSurvey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EditText etSNum = (EditText) findViewById(R.id.etsnum);
+           //     Bundle b = new Bundle();
+                int sn =Integer.parseInt(etSNum.getText().toString());
+         //       b.putInt("surveyNumber", sn);
                 Intent i = new Intent(view.getContext(), com.xware.instasurvey.MainActivity.class);
+                i.putExtra("surveyNumber", sn);
                 startActivity(i);
             }
         });
@@ -186,7 +193,9 @@ public class AddQuestionActivity extends AppCompatActivity {
             }
         });
         */
+
     }
+
     public Integer Update(Question q ) {
         Bundle extras = getIntent().getExtras();
 

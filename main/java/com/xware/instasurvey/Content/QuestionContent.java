@@ -2,6 +2,7 @@ package com.xware.instasurvey.Content;
 
 import java.time.chrono.IsoEra;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,7 @@ import common.DBHelper;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class QuestionContent {
+public class QuestionContent  {
 
     /**
      * An array of sample (dummy) items.
@@ -45,7 +46,9 @@ public class QuestionContent {
             addItem(createQuestionItem(i));
         }
     }
+
 */
+
     public static Map<Integer, String> createQuestionContent(Context c){
             ITEMS.clear();
             ITEM_MAP.clear();

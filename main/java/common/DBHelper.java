@@ -39,8 +39,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-     //    db.execSQL("DROP TABLE IF EXISTS questions");
-     //   db.execSQL("DROP TABLE IF EXISTS answers");
+   //      db.execSQL("DROP TABLE IF EXISTS questions");
+   //     db.execSQL("DROP TABLE IF EXISTS answers");
         db.execSQL(
                 "create table if not exists questions " +
                         "(id INTEGER primary key autoincrement,survey_id INTEGER,question_seq INTEGER,question TEXT,answer1 TEXT,answer2 TEXT,answer3 TEXT,answer4 TEXT,answer5 TEXT )"
@@ -166,7 +166,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 alq.add(q);
                c.moveToNext();
             }
-        } finally {
+        }
+        catch(Exception e) {
+Log.e("edtabase error getQeustions" ,e.getMessage());
+        }
+        finally
+         {
             c.close();
         }
         return alq;
@@ -263,21 +268,21 @@ public class DBHelper extends SQLiteOpenHelper {
         int i=0;
         c.moveToFirst();
         try {
-            hm.put(i,"survey id|quest id|answer|count ");
+            hm.put(i,"survey id|quest id|answer                       |count ");
             while (!c.isAfterLast()) {
         //        Integer sid=c.getInt(0);
          //       Integer sidoffset = 6-sid.toString().length();
 
                 Integer sid =c.getInt(0);
-                Integer sidoffset = 6-sid.toString().length();
+                Integer sidoffset = 9-sid.toString().length();
                 Integer quid  =c.getInt(1);
-                Integer quidoffset = 6-sid.toString().length();
+                Integer quidoffset = 7-sid.toString().length();
                 String answer =c.getString(2)+"";
-                Integer  aoffset = 50 - answer.length();
+                Integer  aoffset = 30 - answer.length();
                 Integer qcount =c.getInt(3);
                 Integer coffset= 7-qcount.toString().length();
 
-                String ret = "|" + padArray[sidoffset]+sid+"|"+ padArray[quidoffset]+quid+"|"+ padArray[aoffset]+answer+"|"+padArray[coffset]+qcount +"|" ;
+                String ret = "|" + padArray[sidoffset]+sid+"|"+ padArray[quidoffset]+quid+"|"+ answer+padArray[aoffset]+"|"+padArray[coffset]+qcount +"|" ;
             // Question q = new Question(i1,i2,sq,sa1,sa2,sa3,sa4,sa5);
 
                 hm.put(i,ret);
@@ -302,10 +307,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
    static  String[] makePadArray(){
-        String[] sa= new String[100];
+        String[] sa= new String[50];
         StringBuilder sb = new StringBuilder();
 
-        for (int i=1;i<101;i++){
+        for (int i=1;i<51;i++){
             sb.append(" ");
 
             sa[i-1] = sb.toString();

@@ -51,8 +51,8 @@ public class QuestionListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "List of survey answers and totals for each answer on right", Snackbar.LENGTH_LONG)
+                        .setAction("List of survey answers and totals for each answer on right", null).show();
             }
         });
 
@@ -73,19 +73,8 @@ private List<Question> getQuestions(Integer sid){
     ArrayList<Question> qa = new  ArrayList<Question>();
    common.DBHelper dh= new common.DBHelper(this);
      qa= dh.getQuestions( sid);
-
     return qa;
 
-   /*
-    String answer ="";
-
-    for(Question q:qa) {
-        qid=q.getId().intValue();
-        sid=q.getSurveyId();
-        //  answer=q.getAnswers();
-        db.insertAnswer(0, qid, sid, answer);
-    }
-  */
 }
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         QuestionContent.createQuestionContent(this);
@@ -162,9 +151,8 @@ private List<Question> getQuestions(Integer sid){
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            holder.mIdView.setText(mValues.get(position).id+"");
+          //  holder.mIdView.setText(mValues.get(position).id+"");
             holder.mContentView.setText(mValues.get(position).content);
-
             holder.itemView.setTag(mValues.get(position)+"");
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -175,12 +163,12 @@ private List<Question> getQuestions(Integer sid){
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
+            //final TextView mIdView;
             final TextView mContentView;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
+              //  mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
