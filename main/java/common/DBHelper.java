@@ -258,26 +258,32 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
         Cursor c= db.rawQuery("select survey_id, question ,answer1, count(answer1) 'cnt' from answers group by survey_id,question,answer1",new String[0]);
      //   String[] sa=new String[0];
         Cursor c1= db.rawQuery("select * from answers where survey_id > ? order by survey_id,question", sa);
-// survey_id INTEGER,question_seq INTEGER,question INTEGER,answer1 TEXT
-    //    Cursor c= db.SimpleSQLiteQuery("select survey_id, question ,answer1, count(answer1) cnt from answers group by survey_id,question,answer1");
+    // survey_id INTEGER,question_seq INTEGER,question INTEGER,answer1 TEXT
+        //    Cursor c= db.SimpleSQLiteQuery("select survey_id, question ,answer1, count(answer1) cnt from answers group by survey_id,question,answer1");
 
         // cols = id INTEGER primary key autoincrement,survey_id INTEGER,question INTEGER,answer1 TEXT";
         int ct=c.getCount();
         int cc = c.getColumnCount();
         HashMap<Integer,String> hm = new HashMap<Integer,String>();
         int i=0;
+        String pad30 =String.format("%1$" + 30 + "s", 'x').replace('x', '_');
+        String line45="___________________________________________" ;
+
+        String pad6="Answers"+padArray[23];
         c.moveToFirst();
         try {
-            hm.put(i,"survey id|quest id|answer                       |count ");
+            hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
+            hm.put(1,line45);
+            i=2;
             while (!c.isAfterLast()) {
         //        Integer sid=c.getInt(0);
          //       Integer sidoffset = 6-sid.toString().length();
 
                 Integer sid =c.getInt(0);
-                Integer sidoffset = 9-sid.toString().length();
+                Integer sidoffset = 12-sid.toString().length();
                 Integer quid  =c.getInt(1);
-                Integer quidoffset = 7-sid.toString().length();
-                String answer =c.getString(2)+"";
+                Integer quidoffset = 14-sid.toString().length();
+                String answer =c.getString(2)+"      ";
                 Integer  aoffset = 30 - answer.length();
                 Integer qcount =c.getInt(3);
                 Integer coffset= 7-qcount.toString().length();

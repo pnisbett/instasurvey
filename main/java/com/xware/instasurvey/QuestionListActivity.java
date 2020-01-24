@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import java.util.Comparator;
 import java.util.Collections;
@@ -37,15 +38,17 @@ public class QuestionListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private Integer surveyId;
-
+private int windowwidth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_list);
-
+    //    windowwidth =this.getParent().getWindow().getAttributes().width;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+        FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
+        windowwidth=fl.getWidth();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +66,22 @@ public class QuestionListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+    //    if (windowwidth==0)
+     //           windowwidth=50;
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<windowwidth -4;i++)
+            sb.append("_");
 
+        String line55= sb.toString() ;// "_____________________________________________________" ;
+        String pad6="Answers"+"                       ";
+        TextView ch= (TextView)findViewById(R.id.colheader);
+        TextView lb= (TextView)findViewById(R.id.linebar);
+        ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
+        lb.setText(line55);
+        //c.moveToFirst();
+       // try {
+          //  hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
+         //  hm.put(1,line55);
         View recyclerView = findViewById(R.id.question_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
@@ -102,14 +120,17 @@ private List<Question> getQuestions(Integer sid){
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //  QuestionContent.QuestionItem item = (QuestionContent.QuestionItem) view.getTag();
-            /*    Integer i = Integer.parseInt(view.getTag().toString());
+          //    int idx=  mValues.indexOf(view.getTag());
+             //   QuestionContent.QuestionItem item = (QuestionContent.QuestionItem) view.getTag();
+                //Integer i = Integer.parseInt(view.getTag().toString());
+                String idx = view.getTag().toString();
+             //   QuestionContent.QuestionItem qi = mValues.get(mValues.indexOf(vt));
+           //     Integer idx = mValues.indexOf(vt);
                 try{
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     //     arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
-                    arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, i + "");
+                    arguments.putString(QuestionDetailFragment.ARG_ITEM_ID, idx);
                     QuestionDetailFragment fragment = new QuestionDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -118,8 +139,8 @@ private List<Question> getQuestions(Integer sid){
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, QuestionDetailActivity.class);
-                    //   intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, item.id+"");
-                    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, i + "");
+                    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, idx);
+                //    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, i + "");
 
 
                     context.startActivity(intent);
@@ -129,7 +150,7 @@ private List<Question> getQuestions(Integer sid){
                     Log.e("answer click exception",e.getMessage());
 
                 }
-                */
+            /*    */
             }
         };
 
@@ -153,7 +174,7 @@ private List<Question> getQuestions(Integer sid){
 
           //  holder.mIdView.setText(mValues.get(position).id+"");
             holder.mContentView.setText(mValues.get(position).content);
-            holder.itemView.setTag(mValues.get(position)+"");
+            holder.itemView.setTag(mValues.get(position).id+"");
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 

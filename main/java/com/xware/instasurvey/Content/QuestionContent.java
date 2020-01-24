@@ -56,6 +56,8 @@ public class QuestionContent  {
     //    dh.getQuestions();
      //  Map<Integer, QuestionContent.QuestionItem> qc=dh.getAllQuestions();
         Map<Integer, String> ac= dh.getAllResponses();
+        // return ac;
+
         int cnt =ac.size();
         System.out.println("create quesiton map size -" +cnt);
       Set<Map.Entry<Integer,String>> es = ac.entrySet();
@@ -63,7 +65,8 @@ public class QuestionContent  {
 
     Iterator<Map.Entry<Integer,String>> it= es.iterator();
 
-        addItem(createQuestionItem(0,"survey id|quest id|answer|count "));
+    //    addItem(createQuestionItem(0,"survey id|quest id|answer|count "));
+
     while (it.hasNext()) {
         Map.Entry<Integer,String> e =it.next();
         Integer i = e.getKey();
@@ -80,6 +83,7 @@ public class QuestionContent  {
     }
 
         return ac;
+
     }
     private static void addItem(QuestionItem item) {
         ITEMS.add(item);
@@ -87,6 +91,7 @@ public class QuestionContent  {
     }
 
     private static QuestionContent.QuestionItem createQuestionItem(int position,String content) {
+        QuestionItem item = ITEM_MAP.get(position);
         String details = makeDetails(position);
         return new QuestionContent.QuestionItem(position, content,  details);
     }
