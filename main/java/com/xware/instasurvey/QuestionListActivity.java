@@ -11,9 +11,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+//import android.support.design.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.Comparator;
 import java.util.Collections;
@@ -47,8 +51,8 @@ private int windowwidth;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-        FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
-        windowwidth=fl.getWidth();
+     //   LinearLayout fl = (LinearLayout)findViewById(R.id.frameLayout);
+   //     windowwidth=fl.getWidth();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,22 +73,30 @@ private int windowwidth;
     //    if (windowwidth==0)
      //           windowwidth=50;
         StringBuilder sb = new StringBuilder();
-        for (int i=0;i<windowwidth -4;i++)
-            sb.append("_");
-
+  /*      for (int i=0;i<windowwidth -4;i++)
+            sb.append("-");
+*/
         String line55= sb.toString() ;// "_____________________________________________________" ;
         String pad6="Answers"+"                       ";
-        TextView ch= (TextView)findViewById(R.id.colheader);
-        TextView lb= (TextView)findViewById(R.id.linebar);
-        ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
+     //   TextView ch= (TextView)findViewById(R.id.colheader);
+   ///     TextView lb= (TextView)findViewById(R.id.linebar);
+
+  //    ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
+   //     lb.setText(line55);
+     //  ch.setTextColor(R.android.);
+      //  ch.setPadding(0,0,0,0);
+  /*      ch.setHeight(35);
+        lb.setTextColor(R.color.colorPrimaryDark);
         lb.setText(line55);
-        //c.moveToFirst();
+        lb.setPadding(0,0,0,0);
+        lb.setHeight(5);
+  */      //c.moveToFirst();
        // try {
           //  hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
          //  hm.put(1,line55);
-        View recyclerView = findViewById(R.id.question_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+       // View recyclerView = findViewById(R.id.question_list);
+   //     assert recyclerView != null;
+      //  setupRecyclerView((RecyclerView) recyclerView);
     }
 
 private List<Question> getQuestions(Integer sid){
@@ -97,7 +109,7 @@ private List<Question> getQuestions(Integer sid){
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         QuestionContent.createQuestionContent(this);
         Collections.sort(QuestionContent.ITEMS,new SortById());
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuestionContent.ITEMS, mTwoPane));
+  //      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuestionContent.ITEMS, mTwoPane));
     }
    public class SortById implements Comparator<QuestionContent.QuestionItem>{
        public int compare(QuestionContent.QuestionItem q1,QuestionContent.QuestionItem q2){
@@ -193,5 +205,26 @@ private List<Question> getQuestions(Integer sid){
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

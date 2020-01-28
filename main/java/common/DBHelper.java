@@ -20,7 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.xware.instasurvey.Question;
-
+import org.apache.commons.lang3.StringUtils;
 //import androidx.room.query;
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -138,7 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] sa= {surveyId+""};
         int ct=-1;
-       Cursor c= db.rawQuery("select * from questions where survey_id = ?",sa);
+       Cursor c= db.rawQuery("select * from questions where survey_id = ? order by question_seq",sa);
      //   Cursor c= db.rawQuery("select * from questions",null);// where survey_id = ?",sa);
         if (c != null) {
          ct= c.getCount();
@@ -272,23 +272,25 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
         String pad6="Answers"+padArray[23];
         c.moveToFirst();
         try {
-            hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
-            hm.put(1,line45);
+        //    hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
+          //  hm.put(1,line45);
             i=2;
             while (!c.isAfterLast()) {
         //        Integer sid=c.getInt(0);
          //       Integer sidoffset = 6-sid.toString().length();
 
                 Integer sid =c.getInt(0);
-                Integer sidoffset = 12-sid.toString().length();
+                Integer sidoffset = 9-sid.toString().length();
                 Integer quid  =c.getInt(1);
-                Integer quidoffset = 14-sid.toString().length();
-                String answer =c.getString(2)+"      ";
-                Integer  aoffset = 30 - answer.length();
+                Integer quidoffset = 10-sid.toString().length();
+                String answer =c.getString(2); //+"      ";
+                Integer  aoffset = 40 - answer.length();
+                if (aoffset < 0)
+                    aoffset=0;
                 Integer qcount =c.getInt(3);
                 Integer coffset= 7-qcount.toString().length();
-
-                String ret = "|" + padArray[sidoffset]+sid+"|"+ padArray[quidoffset]+quid+"|"+ answer+padArray[aoffset]+"|"+padArray[coffset]+qcount +"|" ;
+String ansera = StringUtils.rightPad(answer , aoffset," ");
+                String ret = "|" + padArray[sidoffset]+sid+"  |"+padArray[quidoffset]+quid+"  | "+ ansera +"|"+padArray[coffset]+qcount +" |" ;
             // Question q = new Question(i1,i2,sq,sa1,sa2,sa3,sa4,sa5);
 
                 hm.put(i,ret);

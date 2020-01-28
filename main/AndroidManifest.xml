@@ -11,11 +11,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".QuestionListActivity"
-            android:label="@string/title_question_list"
+            android:label="Answers Summary"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".QuestionDetailActivity"
-            android:label="@string/title_question_detail"
+            android:label="Answer Detail"
             android:parentActivityName=".QuestionListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name=".AddQuestionActivity"
-            android:label="@string/title_activity_add_question"
+            android:label="Add A Question to A Survey"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

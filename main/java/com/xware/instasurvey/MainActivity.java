@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import android.view.ViewGroup.LayoutParams;
 import common.DBHelper;
+import 	android.content.res.ColorStateList;
 
 
 
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             RadioGroup rg= PlaceholderFragment.makeAnswerGroup(surveyId,qid,saa,c);
             TextView tv = new TextView(view.getContext());
             tv.setId(qid);
-            tv.setText(q.id+""+q.question);
+            tv.setText("dynamically created line 125 MainActivity "+q.id+"  "+q.question);
             Fragment f =mSectionsPagerAdapter.getItem(cnt);//new sunday
             mViewPager.addView(tv,cnt);
             mViewPager.addView(rg,cnt);
@@ -159,16 +160,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View view) {
+               newQuestion(view);
 
-                Intent i= new Intent(view.getContext(),com.xware.instasurvey.AddQuestionActivity.class);
-                EditText sn=(EditText)findViewById(R.id.surveyNumber);
-                Integer snum=   Integer.parseInt(sn.getText().toString());
-                i.putExtra("surveyId",snum);
-                startActivity(i);
-
-// update the page fragment
-                mViewPager = (ViewPager) findViewById(R.id.container);
-                mViewPager.setAdapter(mSectionsPagerAdapter);
             }
 
         });
@@ -233,21 +226,8 @@ public class MainActivity extends AppCompatActivity {
         bShowAnswers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText sn=(EditText)findViewById(R.id.surveyNumber);
+                showAnswers(view);
 
-                db = new DBHelper(view.getContext());
-                Integer qid =0;
-                Integer sid =0;
-                try{
-                    sid = Integer.parseInt(sn.getText().toString());
-                    Intent i= new Intent(view.getContext(),com.xware.instasurvey.QuestionListActivity.class);
-                    startActivity(i);
-                    i.putExtra("surveyId",sid);
-                    startActivity(i);
-                }
-                catch(Exception e){
-                    Log.e("ShowAnswers", "onClick: ", e);
-                }
             }
         });
 
@@ -273,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             getSurvey(sn, bSurvey);
         }
 
-
+         this.surveyId=sn;
         //  qa = getQuestionsDemo();
         qa= getQuestions(sn);
         // initialize answer array
@@ -285,7 +265,36 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    protected void newQuestion(View view) {
 
+        Intent i= new Intent(view.getContext(),com.xware.instasurvey.AddQuestionActivity.class);
+     //   EditText esn=(EditText)findViewById(R.id.surveyNumber);
+       Integer snum=  this.surveyId ;// Integer.parseInt(esn.getText().toString());
+        i.putExtra("surveyId",snum);
+        startActivity(i);
+
+// update the page fragment
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+    }
+    protected void showAnswers(View view){
+        EditText esn=(EditText)findViewById(R.id.surveyNumber);
+
+        db = new DBHelper(view.getContext());
+        Integer qid =0;
+        Integer sid =0;
+        try{
+       //     sid = Integer.parseInt(esn.getText().toString());
+            sid =this.surveyId;
+            Intent i= new Intent(view.getContext(),com.xware.instasurvey.QuestionListActivity.class);
+            startActivity(i);
+            i.putExtra("surveyId",sid);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowAnswers", "onClick: ", e);
+        }
+    }
     public static String[] getStringArray(ArrayList<String> arr)
     {
         // declaration and initialise String Array
@@ -309,9 +318,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static  void AddToAnswers(Integer qid,String an){
+        String an1 = an.substring(0,30);
         while ( answers.size()<qid+1)
-            answers.add(an);
-        answers.set(qid,an);
+            answers.add(an1);
+        answers.set(qid,an1);
     }
 
     private  static void AddToResponseAnswers(Answer a){
@@ -403,7 +413,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    void showHelp(){
+        Log.e("show_help","showHelp called");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -411,10 +423,23 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.show_answers:
+                showAnswers(item.getActionView());
+                return true;
+            case R.id.new_question:
+                newQuestion(item.getActionView());
+                return true;
+            case R.id.help:
+                showHelp();
+                return true;
+            case  R.id.action_settings :
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
 
@@ -438,6 +463,8 @@ public class MainActivity extends AppCompatActivity {
         private String  title;
         String[] answers;
         String question;
+        Integer surveyId;
+        Integer questionSeq;
         String[] responseanswer;
         public PlaceholderFragment() {
 
@@ -478,14 +505,17 @@ public class MainActivity extends AppCompatActivity {
             //   ARG_SECTION_NUMBER = sectionNumber;
             int sectionNumber =secNumber; //secNumber is the fragment associated witheach question
             Question q =qa.get(secNumber);
-            q.setId(secNumber);
+         //   q.setId(secNumber);
             //  q.setSurveyId();
             PlaceholderFragment fragment = new PlaceholderFragment();
             // answers.add(new Integer(-1));
             Bundle args = new Bundle();
             String[] sa =  q.getAnswers().toArray(new String[q.getAnswers().size()]);
             args.putInt("ARG_SECTION_NUMBER", secNumber);
-            args.putString("title", "question "+secNumber);
+            args.putString("title", "section "+secNumber);
+            args.putInt("surveyId",q.getSurveyId());
+            args.putInt("questionId",q.getId());
+            args.putInt("questionSeq",q.getSeqId());
             args.putString("question", q.getQuestion());
             args.putStringArray("answers",sa );
             fragment.setArguments(args);
@@ -497,7 +527,10 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             sectionNumber = getArguments().getInt("ARG_SECTION_NUMBER", 0);
             title = getArguments().getString("title");
+
             question= getArguments().getString("question");
+            questionSeq= getArguments().getInt("questionSeq");
+            surveyId=getArguments().getInt("surveyId");
             answers = getArguments().getStringArray("answers");
         }
 
@@ -507,7 +540,8 @@ public class MainActivity extends AppCompatActivity {
 Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+"");
             View v = (View)container.getParent();
             EditText etSnum=(EditText)v.findViewById(R.id.surveyNumber);
-            int sid = Integer.parseInt(etSnum.getText().toString());
+            int sid = 1;
+            //Integer.parseInt(etSnum.getText().toString());
             Log.e("QUESTION PARENT CONTAINER","container id = "+v.getId()+"");
             Log.e("QUESTION Survey NUMBER =","survey number = "+etSnum.getText().toString()+"");
             int height = 0;
@@ -517,14 +551,31 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
             for (int i=0;i<6 ;i++){
                 responseanswer[i]="";
             }
+
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             LinearLayout cl =(LinearLayout) rootView.findViewById(R.id.constraintLayout);
             String id="q"+R.id.section_label;
+
             TextView tvSectionLabel = rootView.findViewById(R.id.section_label);
-            tvSectionLabel.setText("Section Num =" + this.sectionNumber);
+            tvSectionLabel.setPadding(10,0,0,0);
+        //    tvSectionLabel.setTextColor(R.color.colorPrimaryDark);
+            tvSectionLabel.setTextColor(R.color.colorBlack);
+            tvSectionLabel.setText("Section Number : " + this.sectionNumber);
             Integer.parseInt(R.id.section_label+"");
+
+            TextView tvQuestionSeq = rootView.findViewById(R.id.tvqseq);
+            tvQuestionSeq.setTextColor(R.color.colorPrimaryDark);
+            tvQuestionSeq.setText(this.questionSeq+"");
+            tvQuestionSeq.setPadding(10,0,0,0);
+            tvQuestionSeq.setTextColor(R.color.colorBlack);
+
+
             TextView tvQuestion = rootView.findViewById(R.id.tvq);
+            tvQuestion.setTextColor(R.color.colorPrimaryDark);
             tvQuestion.setText(this.question);
+            tvQuestion.setPadding(10,0,0,0);
+            tvQuestion.setTextColor(R.color.colorBlack);
+
             String[]sa =this.answers;
             RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext());
 
@@ -536,7 +587,7 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
 
             //   TextView tvQuestionLabel = rootView.findViewById(R.id.section_label);
 
-            tvSectionLabel.setText("Section Num =" + this.sectionNumber);
+       //     tvSectionLabel.setText("Section Num =" + this.sectionNumber);
 
             //     int idx=getArguments().getInt(ARG_SECTION_NUMBER);
 
@@ -609,9 +660,26 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
 // Long l =Math.round(Math.random());
 
             for(String s:sa) {
+                ColorStateList colorStateList = new ColorStateList(
+                        new int[][]{
+
+                                new int[]{-android.R.attr.state_enabled}, //disabled
+                                new int[]{android.R.attr.state_enabled} //enabled
+                        },
+                        new int[] {
+
+                                Color.GRAY //disabled
+                                ,Color.BLACK //enabled
+
+                        }
+                );
+
+
 
                 //   RadioButton rb = new RadioButton(this.getContext());
                 RadioButton rb = new RadioButton(c);
+                rb.setButtonTintList(colorStateList);
+
                 rb.setText(s);
                 rb.setId(q2 * 100 + idx+1);
                 rg.addView(rb,idx,lp);

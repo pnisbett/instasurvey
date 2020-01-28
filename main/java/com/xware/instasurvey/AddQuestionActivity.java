@@ -155,7 +155,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 */
 
 
-                Question q = new Question(0, surveyId, questionSeq, f2, f3, f4, f5, f6, f7);
+                Question q = new Question(0, surveyId, questionSeq, f1, f3, f4, f5, f6, f7);
                 int upd = Update(q);
                 if (upd > -1) {
                     Context context = v.getContext();
@@ -217,5 +217,41 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         return r;
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                home();
+                return true;
+            case R.id.help:
+                showHelp();
+                return true;
+
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    void home(){
+        Log.e("home_called","home called");
+    }
+    void showHelp(){
+        Log.e("show_help","showHelp called");
+    }
 }

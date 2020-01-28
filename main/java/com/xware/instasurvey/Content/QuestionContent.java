@@ -59,7 +59,7 @@ public class QuestionContent  {
         // return ac;
 
         int cnt =ac.size();
-        System.out.println("create quesiton map size -" +cnt);
+        System.out.println("create question map size -" +cnt);
       Set<Map.Entry<Integer,String>> es = ac.entrySet();
 
 
