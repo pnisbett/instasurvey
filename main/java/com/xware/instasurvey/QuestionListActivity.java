@@ -47,12 +47,12 @@ private int windowwidth;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_list);
-    //    windowwidth =this.getParent().getWindow().getAttributes().width;
+     //   windowwidth =this.getParent().getWindow().getAttributes().width;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-     //   LinearLayout fl = (LinearLayout)findViewById(R.id.frameLayout);
-   //     windowwidth=fl.getWidth();
+     FrameLayout fl = (FrameLayout)findViewById(R.id.frameLayout);
+        windowwidth= 300; //fl.getWidth();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -70,33 +70,33 @@ private int windowwidth;
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-    //    if (windowwidth==0)
-     //           windowwidth=50;
+        if (windowwidth==0)
+               windowwidth=50;
         StringBuilder sb = new StringBuilder();
-  /*      for (int i=0;i<windowwidth -4;i++)
+       for (int i=0;i<windowwidth -4;i++)
             sb.append("-");
-*/
+
         String line55= sb.toString() ;// "_____________________________________________________" ;
         String pad6="Answers"+"                       ";
-     //   TextView ch= (TextView)findViewById(R.id.colheader);
-   ///     TextView lb= (TextView)findViewById(R.id.linebar);
+        TextView ch= (TextView)findViewById(R.id.colheader);
+        TextView lb= (TextView)findViewById(R.id.linebar);
 
-  //    ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
-   //     lb.setText(line55);
+      ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
+        lb.setText(line55);
      //  ch.setTextColor(R.android.);
       //  ch.setPadding(0,0,0,0);
-  /*      ch.setHeight(35);
+       ch.setHeight(35);
         lb.setTextColor(R.color.colorPrimaryDark);
         lb.setText(line55);
         lb.setPadding(0,0,0,0);
         lb.setHeight(5);
-  */      //c.moveToFirst();
+        //c.moveToFirst();
        // try {
           //  hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
          //  hm.put(1,line55);
-       // View recyclerView = findViewById(R.id.question_list);
-   //     assert recyclerView != null;
-      //  setupRecyclerView((RecyclerView) recyclerView);
+        View recyclerView = findViewById(R.id.question_list);
+       assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
 private List<Question> getQuestions(Integer sid){
@@ -109,7 +109,7 @@ private List<Question> getQuestions(Integer sid){
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         QuestionContent.createQuestionContent(this);
         Collections.sort(QuestionContent.ITEMS,new SortById());
-  //      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuestionContent.ITEMS, mTwoPane));
+       recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(new Header(),this, QuestionContent.ITEMS, mTwoPane));
     }
    public class SortById implements Comparator<QuestionContent.QuestionItem>{
        public int compare(QuestionContent.QuestionItem q1,QuestionContent.QuestionItem q2){
@@ -123,9 +123,32 @@ private List<Question> getQuestions(Integer sid){
 
         }
     }
+    public class Header {
+        //    More fields can be defined here after your need
+        private String header;
+
+        public Header(){
+            setHeader("BOGUS");
+        }
+
+        public String getHeader() {
+            return header;
+        }
+        public void setHeader(String header) {
+            this.header = header;
+        }
+    }
+    /*
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+        */
 
+    public static class SimpleItemRecyclerViewAdapter
+        extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+        private static final int TYPE_HEADER = 0;
+        private static final int TYPE_ITEM = 1;
+
+        Header header;
         private final QuestionListActivity mParentActivity;
         private final List<QuestionContent.QuestionItem> mValues;
         private final boolean mTwoPane;
@@ -155,7 +178,7 @@ private List<Question> getQuestions(Integer sid){
                 //    intent.putExtra(QuestionDetailFragment.ARG_ITEM_ID, i + "");
 
 
-                    context.startActivity(intent);
+                 //   context.startActivity(intent);
                 }
                 }
                 catch(Exception e){
@@ -166,6 +189,37 @@ private List<Question> getQuestions(Integer sid){
             }
         };
 
+
+
+        class VHHeader extends RecyclerView.ViewHolder{
+             TextView linebar;
+             TextView colHeader;
+            public VHHeader(View itemView) {
+                super(itemView);
+                this.colHeader = (TextView)itemView.findViewById(R.id.colheader);
+               this.linebar = (TextView)itemView.findViewById(R.id.linebar);
+
+            }
+        }
+
+        class VHItem extends RecyclerView.ViewHolder{
+            final TextView mContentView;
+
+            public VHItem(View itemView) {
+                super(itemView);
+                this.mContentView = (TextView)itemView.findViewById(R.id.content);
+
+            }
+        }
+        SimpleItemRecyclerViewAdapter(Header header,QuestionListActivity parent,
+                                      List<QuestionContent.QuestionItem> items,
+                                      boolean twoPane) {
+            mValues = items;
+            this.header = header;
+           mParentActivity = parent;
+            mTwoPane = twoPane;
+        }
+
         SimpleItemRecyclerViewAdapter(QuestionListActivity parent,
                                       List<QuestionContent.QuestionItem> items,
                                       boolean twoPane) {
@@ -173,14 +227,69 @@ private List<Question> getQuestions(Integer sid){
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
-
+/*
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.question_list_content, parent, false);
             return new ViewHolder(view);
         }
+        */
 
+@Override
+     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  /*  View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.question_list_content, parent, false);
+    return new ViewHolder(view);
+*/
+    if (viewType == TYPE_HEADER) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item, parent, false);
+        return new VHHeader(v);
+    } else if (viewType == TYPE_ITEM) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_list_content, parent, false);
+        return new VHItem(v);
+    }
+       throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
+       }
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if(holder instanceof VHHeader)
+            {
+                VHHeader VHheader = (VHHeader)holder;
+                VHheader.colHeader.setText(header.getHeader());
+            }
+            else if(holder instanceof VHItem)
+            {
+             /*   ListItem currentItem = getItem(position-1);
+                VHItem VHitem = (VHItem)holder;
+                VHitem.txtName.setText(currentItem.getName());
+                VHitem.iv.setBackgroundResource(currentItem.getId());
+                */
+                VHItem VHitem = (VHItem)holder;
+                VHitem.mContentView.setText(mValues.get(position).content);
+            // ((VHItem) holder).mContentView
+         //        holder.mContentView.setText(mValues.get(position).content);
+                VHitem.itemView.setTag(mValues.get(position).id+"");
+                VHitem.itemView.setTag(mValues.get(position).id+"");
+                VHitem.itemView.setOnClickListener(mOnClickListener);
+            //    holder.itemView.setTag(mValues.get(position).id+"");
+              //  holder.itemView.setOnClickListener(mOnClickListener);
+            }
+        }
+
+
+        //    need to override this method
+        @Override
+        public int getItemViewType(int position) {
+            if(isPositionHeader(position))
+                return TYPE_HEADER;
+            return TYPE_ITEM;
+        }
+
+        private boolean isPositionHeader(int position)
+        {
+            return position == 0;
+        }/*
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
@@ -189,11 +298,12 @@ private List<Question> getQuestions(Integer sid){
             holder.itemView.setTag(mValues.get(position).id+"");
             holder.itemView.setOnClickListener(mOnClickListener);
         }
-
+*/
         @Override
         public int getItemCount() {
             return mValues.size();
         }
+
 
         class ViewHolder extends RecyclerView.ViewHolder {
             //final TextView mIdView;

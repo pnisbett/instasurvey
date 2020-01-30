@@ -84,7 +84,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             value = extras.getInt("surveyId");
         }
       //  etNum.setText(value+"");
-        bSurvey.setOnClickListener(new View.OnClickListener() {
+       bSurvey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText etSNum = (EditText) findViewById(R.id.etsnum);

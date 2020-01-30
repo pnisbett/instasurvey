@@ -10,4 +10,5 @@
     android:layout_marginRight="0dp"
      app:layoutManager="android.support.v7.widget.LinearLayoutManager"
     tools:context=".QuestionListActivity"
+    android:scrollbars="vertical"
     tools:listitem="@layout/question_list_content" />
