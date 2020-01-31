@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -73,16 +74,16 @@ private int windowwidth;
     //    if (windowwidth==0)
      //           windowwidth=50;
         StringBuilder sb = new StringBuilder();
-  /*      for (int i=0;i<windowwidth -4;i++)
+        for (int i=0;i<200 -4;i++)
             sb.append("-");
-*/
+
         String line55= sb.toString() ;// "_____________________________________________________" ;
         String pad6="Answers"+"                       ";
-     //   TextView ch= (TextView)findViewById(R.id.colheader);
-   ///     TextView lb= (TextView)findViewById(R.id.linebar);
 
-  //    ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
-   //     lb.setText(line55);
+       TextView ch= (TextView)findViewById(R.id.colheader);
+        TextView lb= (TextView)findViewById(R.id.linebar);
+        ch.setText("Survey Id|Quest Id|"+pad6 +"|Count");
+        lb.setText(line55);
      //  ch.setTextColor(R.android.);
       //  ch.setPadding(0,0,0,0);
   /*      ch.setHeight(35);
@@ -94,9 +95,9 @@ private int windowwidth;
        // try {
           //  hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
          //  hm.put(1,line55);
-       // View recyclerView = findViewById(R.id.question_list);
-   //     assert recyclerView != null;
-      //  setupRecyclerView((RecyclerView) recyclerView);
+        View recyclerView = findViewById(R.id.question_list);
+        assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);
     }
 
 private List<Question> getQuestions(Integer sid){
@@ -213,7 +214,39 @@ private List<Question> getQuestions(Integer sid){
         return true;
     }
 
+    void home(){
+        try{
+            Context c =QuestionListActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.MainActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowAnswers", "onClick: ", e);
+        }
+        Log.e("home_called","home called");
+    }
+    protected void newQuestion() {
+        Context c=QuestionListActivity.this;
+        Intent i= new Intent(c,com.xware.instasurvey.AddQuestionActivity.class);
+        //   EditText esn=(EditText)findViewById(R.id.surveyNumber);
+        Integer snum=  this.surveyId ;// Integer.parseInt(esn.getText().toString());
+        i.putExtra("surveyId",snum);
+        startActivity(i);
 
+    }
+    void showHelp(){
+
+        try{
+            Context c =QuestionListActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowHelp", "onClick: ", e);
+        }
+
+        Log.e("show_help","showHelp called");
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -222,9 +255,25 @@ private List<Question> getQuestions(Integer sid){
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                home();
+                return true;
+            case R.id.new_question:
+                newQuestion();
+                return true;
+            case R.id.help:
+                showHelp();
+                return true;
+            case  R.id.action_settings :
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+
+
+
     }
 }

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_home"
         android:orderInCategory="100"
-        android:title="Action Home"
+        android:title="Home"
         app:showAsAction="never" />
     <item
         android:id="@+id/show_answers"

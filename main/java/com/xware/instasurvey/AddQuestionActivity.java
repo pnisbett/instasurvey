@@ -88,7 +88,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText etSNum = (EditText) findViewById(R.id.etsnum);
-           //     Bundle b = new Bundle();
+           //Context c=MainActivity.this;     Bundle b = new Bundle();
                 int sn =Integer.parseInt(etSNum.getText().toString());
          //       b.putInt("surveyNumber", sn);
                 Intent i = new Intent(view.getContext(), com.xware.instasurvey.MainActivity.class);
@@ -249,9 +249,27 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
     void home(){
+        try{
+            Context c =AddQuestionActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.MainActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowAnswers", "onClick: ", e);
+        }
         Log.e("home_called","home called");
     }
     void showHelp(){
+
+        try{
+            Context c =AddQuestionActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowHelp", "onClick: ", e);
+        }
+
         Log.e("show_help","showHelp called");
     }
 }
