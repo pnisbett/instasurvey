@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -76,28 +76,32 @@
         android:orientation="vertical"
         android:layout_gravity="top">
 
+<android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-
-
+</android.support.design.widget.CoordinatorLayout>
 
     </FrameLayoutLayout>
 -->
 
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:scrollbars="vertical"
 
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-               <include layout="@layout/question_list" />
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:scrollbars="vertical"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+        >
+
+        <!-- include layout="@layout/header_item" / -->
+         <include layout="@layout/question_list" />
 
         </FrameLayout>
-    </android.support.design.widget.CoordinatorLayout>
+
            <android.support.design.widget.FloatingActionButton
                android:id="@+id/fab"
                android:layout_width="wrap_content"
@@ -107,4 +111,4 @@
                app:srcCompat="@android:drawable/ic_dialog_info" />
 
 
-       </android.widget.LinearLayout>
+       </android.support.design.widget.CoordinatorLayout>

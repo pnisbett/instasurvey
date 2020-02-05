@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
 
             public void onClick(View view) {
-               newQuestion(view);
+               newQuestion();
 
             }
 
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         bShowAnswers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAnswers(view);
+                showAnswers();
 
             }
         });
@@ -265,9 +265,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    protected void newQuestion(View view) {
-
-        Intent i= new Intent(view.getContext(),com.xware.instasurvey.AddQuestionActivity.class);
+    protected void newQuestion() {
+        Context c=MainActivity.this;
+        Intent i= new Intent(c,com.xware.instasurvey.AddQuestionActivity.class);
      //   EditText esn=(EditText)findViewById(R.id.surveyNumber);
        Integer snum=  this.surveyId ;// Integer.parseInt(esn.getText().toString());
         i.putExtra("surveyId",snum);
@@ -277,16 +277,16 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
-    protected void showAnswers(View view){
+    protected void showAnswers(){
         EditText esn=(EditText)findViewById(R.id.surveyNumber);
-
-        db = new DBHelper(view.getContext());
+       Context c=MainActivity.this;
+        db = new DBHelper(c);
         Integer qid =0;
         Integer sid =0;
         try{
        //     sid = Integer.parseInt(esn.getText().toString());
             sid =this.surveyId;
-            Intent i= new Intent(view.getContext(),com.xware.instasurvey.QuestionListActivity.class);
+            Intent i= new Intent(c,com.xware.instasurvey.QuestionListActivity.class);
             startActivity(i);
             i.putExtra("surveyId",sid);
             startActivity(i);
@@ -414,6 +414,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     void showHelp(){
+
+        try{
+            Context c =MainActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowHelp", "onClick: ", e);
+        }
         Log.e("show_help","showHelp called");
     }
     @Override
@@ -425,10 +434,10 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
             case R.id.show_answers:
-                showAnswers(item.getActionView());
+                showAnswers();
                 return true;
             case R.id.new_question:
-                newQuestion(item.getActionView());
+                newQuestion();
                 return true;
             case R.id.help:
                 showHelp();
