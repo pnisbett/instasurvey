@@ -272,8 +272,8 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
         String pad6="Answers"+padArray[23];
         c.moveToFirst();
         try {
-        //    hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
-          //  hm.put(1,line45);
+            hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
+            hm.put(1,line45);
             i=2;
             while (!c.isAfterLast()) {
         //        Integer sid=c.getInt(0);

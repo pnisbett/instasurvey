@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     static int horizontalLoc=0;
     static int tvheight=35;
     static DBHelper db;
-    public int surveyId=0;
+    static int surveyId=0;
 
 
     public void getSurvey(int surveyid,View view){
@@ -120,17 +120,24 @@ public class MainActivity extends AppCompatActivity {
             Integer qqid =1;
             String[] saa= getStringArray(sa); //{"","",""};
             RadioGroup rg= PlaceholderFragment.makeAnswerGroup(surveyId,qid,saa,c);
+
             TextView tv = new TextView(view.getContext());
             tv.setId(qid);
             tv.setText("dynamically created line 125 MainActivity "+q.id+"  "+q.question);
             Fragment f =mSectionsPagerAdapter.getItem(cnt);//new sunday
-            mViewPager.addView(tv,cnt);
-            mViewPager.addView(rg,cnt);
+       //     TextView tvSurvey = new TextView(view.getContext());
+         //   TextView tvSurvey =    (TextView) findViewById(R.id.tvSurvey);
+     //       tvSurvey.setText("survey id is "+surveyid+"");
+    //        mViewPager.addView(tvSurvey,cnt);
+            ArrayList<View> av= new ArrayList<View>();
+            av.add(tv);
+            if (f.getView() != null)
+                   f.getView().addFocusables(av,1); //addView(tv,cnt);
+  //          mViewPager.addView(rg,cnt);
             mSectionsPagerAdapter.notifyDataSetChanged(); //new sunday
             cnt++;
 
-        }
-        mViewPager.setCurrentItem(0);
+        }mViewPager.setCurrentItem(0);
     }
 
     @Override
@@ -215,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
                 if (s.equals(""))
                     s="0";
                 int surveyid= Integer.parseInt(s);
+                MainActivity.surveyId=surveyid;
+
                 getSurvey(surveyid,view) ;
 
                 }
@@ -451,8 +460,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     /**
 
      * A placeholder fragment containing a simple view.
@@ -566,32 +573,40 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
             String id="q"+R.id.section_label;
 
             TextView tvSectionLabel = rootView.findViewById(R.id.section_label);
-            tvSectionLabel.setPadding(10,0,0,0);
-        //    tvSectionLabel.setTextColor(R.color.colorPrimaryDark);
+            tvSectionLabel.setPadding(0,0,0,0);
             tvSectionLabel.setTextColor(R.color.colorBlack);
             tvSectionLabel.setText("Section Number : " + this.sectionNumber);
-            Integer.parseInt(R.id.section_label+"");
+          //  Integer.parseInt(R.id.section_label+"");
 
             TextView tvQuestionSeq = rootView.findViewById(R.id.tvqseq);
-            tvQuestionSeq.setTextColor(R.color.colorPrimaryDark);
-            tvQuestionSeq.setText(this.questionSeq+"");
-            tvQuestionSeq.setPadding(10,0,0,0);
             tvQuestionSeq.setTextColor(R.color.colorBlack);
-
+            tvQuestionSeq.setText(this.questionSeq+"");
+            tvQuestionSeq.setPadding(0,0,0,0);
 
             TextView tvQuestion = rootView.findViewById(R.id.tvq);
-            tvQuestion.setTextColor(R.color.colorPrimaryDark);
-            tvQuestion.setText(this.question);
-            tvQuestion.setPadding(10,0,0,0);
-            tvQuestion.setTextColor(R.color.colorBlack);
+            tvQuestion.setTextColor(R.color.colorRed);
+            tvQuestion.setText(this.question+"");
+            tvQuestion.setPadding(0,0,0,0);
+
+
+
+            TextView tvSurveyLabel = rootView.findViewById(R.id.lblSurvey);
+            tvSurveyLabel.setPadding(0,0,0,0);
+            tvSurveyLabel.setTextColor(R.color.colorRed);
+            tvSurveyLabel.setText("Survey Number : " );
+
+
+            TextView tvqsSurvey = rootView.findViewById(R.id.tvSurvey);
+            tvqsSurvey.setTextColor(R.color.colorRed);
+            tvqsSurvey.setText(this.surveyId+"");
+            tvqsSurvey.setPadding(0,0,0,0);
+
+
 
             String[]sa =this.answers;
             RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext());
-
             //   LinearLayout ll =rootView.findViewById(R.id.container);
-
             if (rg != null)
-
                 cl.addView(rg);
 
             //   TextView tvQuestionLabel = rootView.findViewById(R.id.section_label);

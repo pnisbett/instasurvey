@@ -349,6 +349,8 @@ private List<Question> getQuestions(Integer sid){
 
 
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -356,9 +358,43 @@ private List<Question> getQuestions(Integer sid){
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                home();
+                return true;
+            case R.id.help:
+                showHelp();
+                return true;
+
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+    }
+    void home(){
+        try{
+            Context c =QuestionListActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.MainActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowAnswers", "onClick: ", e);
+        }
+        Log.e("home_called","home called");
+    }
+    void showHelp(){
+
+        try{
+            Context c =QuestionListActivity.this;
+            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            startActivity(i);
+        }
+        catch(Exception e){
+            Log.e("ShowHelp", "onClick: ", e);
+        }
+
+        Log.e("show_help","showHelp called");
     }
 }
