@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+"");
+            Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+"");
             View v = (View)container.getParent();
             EditText etSnum=(EditText)v.findViewById(R.id.surveyNumber);
             int sid = 1;
@@ -571,38 +571,33 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             LinearLayout cl =(LinearLayout) rootView.findViewById(R.id.constraintLayout);
             String id="q"+R.id.section_label;
-
             TextView tvSectionLabel = rootView.findViewById(R.id.section_label);
             tvSectionLabel.setPadding(0,0,0,0);
-            tvSectionLabel.setTextColor(R.color.colorBlack);
-            tvSectionLabel.setText("Section Number : " + this.sectionNumber);
-          //  Integer.parseInt(R.id.section_label+"");
 
+            tvSectionLabel.setText("Section Number :            " + this.sectionNumber);
+    //        tvSectionLabel.setTextColor(R.color.colorRed);
+          //  Integer.parseInt(R.id.section_label+"");
             TextView tvQuestionSeq = rootView.findViewById(R.id.tvqseq);
-            tvQuestionSeq.setTextColor(R.color.colorBlack);
+
             tvQuestionSeq.setText(this.questionSeq+"");
             tvQuestionSeq.setPadding(0,0,0,0);
+            //tvQuestionSeq.setTextColor(R.color.colorBlack);
 
+            TextView tvQuestionLabel = rootView.findViewById(R.id.lblq);
             TextView tvQuestion = rootView.findViewById(R.id.tvq);
-            tvQuestion.setTextColor(R.color.colorRed);
-            tvQuestion.setText(this.question+"");
+          //  tvQuestion.setTextColor(R.color.colorRed);
+            tvQuestion.setText(this.question);
             tvQuestion.setPadding(0,0,0,0);
-
-
 
             TextView tvSurveyLabel = rootView.findViewById(R.id.lblSurvey);
             tvSurveyLabel.setPadding(0,0,0,0);
-            tvSurveyLabel.setTextColor(R.color.colorRed);
+         //   tvSurveyLabel.setTextColor(R.color.colorRed);
             tvSurveyLabel.setText("Survey Number : " );
 
-
             TextView tvqsSurvey = rootView.findViewById(R.id.tvSurvey);
-            tvqsSurvey.setTextColor(R.color.colorRed);
+          //  tvqsSurvey.setTextColor(R.color.colorRed);
             tvqsSurvey.setText(this.surveyId+"");
             tvqsSurvey.setPadding(0,0,0,0);
-
-
-
             String[]sa =this.answers;
             RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext());
             //   LinearLayout ll =rootView.findViewById(R.id.container);
@@ -664,9 +659,7 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
             }
 
 */
-
             return rootView;
-
         }
 
 
@@ -697,45 +690,27 @@ Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+""
 
                         }
                 );
-
-
-
                 //   RadioButton rb = new RadioButton(this.getContext());
                 RadioButton rb = new RadioButton(c);
                 rb.setButtonTintList(colorStateList);
-
                 rb.setText(s);
                 rb.setId(q2 * 100 + idx+1);
                 rg.addView(rb,idx,lp);
-final String fs =s;
+                final String fs =s;
                 rb.setOnClickListener(new View.OnClickListener() {
-
                     @Override
-
                     public void onClick(View view) {
-
                         RadioButton rb2 =(RadioButton)view;
-
                         if (rb2.isChecked()){
-
                             //    AddToAnswers(q2, rb2.getId());
                             Answer a=Answer.makeAnswer(fsid,q2,fs);
                             AddToResponseAnswers(a);
-
-
-
                         }
-
                     }
-
                 });
-
                 idx++;
-
             }
-
             return rg;
-
         }
 
         private TextView makeTextView(String id ,String val,int offset){
@@ -816,13 +791,9 @@ final String fs =s;
     }
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-
         private final List<Fragment> mFragmentList = new ArrayList<>();
-
         public SectionsPagerAdapter(FragmentManager fm) {
-
             super(fm);
-
         }
 
         @Override
@@ -840,7 +811,6 @@ final String fs =s;
             else {
                 f = PlaceholderFragment.newInstance(position);
                 mFragmentList.add(f);
-
             }
             return f;
         }
@@ -854,9 +824,7 @@ final String fs =s;
             if (position< mFragmentList.size())
                 mFragmentList.remove(position);
         }
-
         // @Override
-
         public Fragment getItem1(int position) {
 
             //We are doing this only for checking the total number of fragments in the fragment manager.

@@ -43,9 +43,9 @@
 
             <EditText
                 android:id="@+id/etsid"
-                android:layout_width="215dp"
+                android:layout_width="30dp"
                 android:layout_height="25dp"
-                android:ems="10"
+
                 android:inputType="number"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/rectangle"
@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/tvqseq"
                 android:textColor="@color/colorPrimary"
-                android:layout_width="300dp"
+                android:layout_width="50dp"
                 android:layout_height="25dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="20dp"
@@ -62,7 +62,7 @@
 
             <EditText
                 android:id="@+id/etqseq"
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:ems="10"
                 android:inputType="number"
@@ -82,7 +82,7 @@
 
             <EditText
                 android:id="@+id/etq"
-                android:layout_width="50dp"
+                android:layout_width="150dp"
                 android:layout_height="25dp"
                 android:ems="10"
                 android:inputType="text"

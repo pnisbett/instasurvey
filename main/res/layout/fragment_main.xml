@@ -17,8 +17,35 @@
         android:layout_marginLeft="10dp"
         android:textStyle="bold"
         android:layout_gravity="bottom"
+        android:textColor="@color/colorPrimary"
         android:text="This is the section label"
  />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_height="25dp"
+        android:id="@+id/labelLayout3"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp">
+        <TextView
+            android:id="@+id/lblSurvey"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom"
+            android:padding="0dp"
+            android:textStyle="bold"
+            android:text="Survey layout "  />
+        <TextView
+            android:id="@+id/tvSurvey"
+            android:layout_gravity="bottom"
+            android:layout_width="250dp"
+            android:layout_height="20dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:text="survey text" />
+    </LinearLayout>2
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
@@ -34,6 +61,7 @@
         android:layout_height="20dp"
         android:padding="0dp"
         android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         android:text="Question Sequence : "  />
     <TextView
         android:id="@+id/tvqseq"
@@ -62,42 +90,26 @@
         android:layout_gravity="bottom"
         android:padding="0dp"
         android:textStyle="bold"
-        android:text="Question Number "  />
+        android:textColor="@color/colorPrimary"
+        android:text="Question Text :"  />
     <TextView
         android:id="@+id/tvq"
         android:layout_gravity="bottom"
         android:layout_width="250dp"
         android:layout_height="20dp"
-        android:textColor="@color/colorOrange"
+        android:textColor="@android:color/holo_red_dark"
         android:textStyle="bold"
-        android:text="" />
+        android:text="blubell" />
     </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_height="20dp"
-            android:id="@+id/labelLayout3"
-            android:orientation="horizontal"
-            android:paddingBottom="0dp">
-            <TextView
-                android:id="@+id/lblSurvey"
-
-                android:layout_width="150dp"
-                android:layout_height="20dp"
-                android:layout_gravity="bottom"
-                android:padding="0dp"
-                android:textStyle="bold"
-                android:text="Survey  "  />
-            <TextView
-                android:id="@+id/tvSurvey"
-                android:layout_gravity="clip_vertical"
-                android:layout_width="250dp"
-                android:layout_height="20dp"
-                android:textColor="@android:color/holo_red_dark"
-                android:textStyle="bold"
-                android:text="" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_height="20dp"
+        android:id="@+id/labelLayout5"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp">
+    </LinearLayout>
     <!--
         <EditText
             android:id="@+id/eta"

@@ -78,7 +78,6 @@
 
             <EditText
                 android:id="@+id/surveyNumber"
-
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -87,10 +86,9 @@
                 android:background="@drawable/rectangle"
                 android:inputType="number"
                 android:padding="5dp"
-
                 android:text=""
                 android:textAllCaps="false"
-                android:textColor="#000000"
+                android:textColor="@color/colorPrimary"
                 android:typeface="normal" />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
