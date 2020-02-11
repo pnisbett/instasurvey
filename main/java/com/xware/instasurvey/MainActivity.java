@@ -3,8 +3,6 @@ package com.xware.instasurvey;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Parcelable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 // import android.support.v4.app.FragmentPagerAdapter;
 // import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,8 +28,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             Integer i =1;
             Integer qqid =1;
             String[] saa= getStringArray(sa); //{"","",""};
-            RadioGroup rg= PlaceholderFragment.makeAnswerGroup(surveyId,qid,saa,c);
+        //    RadioGroup rg= PlaceholderFragment.makeAnswerGroup(surveyId,qid,saa,c);
 
             TextView tv = new TextView(view.getContext());
             tv.setId(qid);
@@ -173,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        Button bSave= (Button)findViewById(R.id.btnSave);
+        final Button bSave= (Button)findViewById(R.id.btnSave);
         bSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -192,9 +187,18 @@ public class MainActivity extends AppCompatActivity {
                 int i =0;
                 saveResponseAnswers(responseAnswer);
                 for(Question q:qa) {
-                    qid=q.getId().intValue();
-                    sid=q.getSurveyId();
-                    RadioGroup rg=(RadioGroup)findViewById(q.id);
+                   // qid=q.getId().intValue();
+                 //   sid=q.getSurveyId();
+                    RadioGroup rg=null;
+                    try {
+                       rg= (RadioGroup) findViewById(q.id);
+                    }
+                    catch(Exception e){
+                        View v2 =findViewById(q.id);
+
+                       String sc ="viewclass= "+v2.getClass().getName() + "  "+q.id +"\n" +" " +e.getMessage();
+                        Log.e("radiogroup ID error",sc);
+                    }
                     if (rg != null) {
                         int c = rg.getChildCount();
                         for (int ii=0;ii<c;ii++) {
@@ -205,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                bSave.setEnabled(false);
                 mViewPager.setCurrentItem(0);
             }
 
@@ -426,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             Context c =MainActivity.this;
-            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            Intent i= new Intent(c, HelpActivity.class);
             startActivity(i);
         }
         catch(Exception e){
@@ -556,6 +561,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("QUESTION CONTAINER","container id = "+container.getParent().toString()+"");
             View v = (View)container.getParent();
             EditText etSnum=(EditText)v.findViewById(R.id.surveyNumber);
+            Button bSave= (Button)v.findViewById(R.id.btnSave);
             int sid = 1;
             //Integer.parseInt(etSnum.getText().toString());
             Log.e("QUESTION PARENT CONTAINER","container id = "+v.getId()+"");
@@ -599,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
             tvqsSurvey.setText(this.surveyId+"");
             tvqsSurvey.setPadding(0,0,0,0);
             String[]sa =this.answers;
-            RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext());
+            RadioGroup rg =makeAnswerGroup(sid,this.sectionNumber, sa ,this.getContext(),bSave);
             //   LinearLayout ll =rootView.findViewById(R.id.container);
             if (rg != null)
                 cl.addView(rg);
@@ -664,7 +670,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        public static RadioGroup makeAnswerGroup(Integer sid,Integer qid, String[] sa ,Context c ){
+        public static RadioGroup makeAnswerGroup(Integer sid,Integer qid, String[] sa ,Context c ,Button bSave1){
     //   public static RadioGroup makeAnswerGroup(Answer a ,Context c ){
             // RadioGroup rg = new RadioGroup(this.getContext());
             RadioGroup rg = new RadioGroup(c);
@@ -672,6 +678,7 @@ public class MainActivity extends AppCompatActivity {
             int idx = 0;
             final int q2 =  qid.intValue();
             final int fsid = sid.intValue();
+            final Button bSave =bSave1;
             LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             int cur=0;
 // Long l =Math.round(Math.random());
@@ -697,11 +704,13 @@ public class MainActivity extends AppCompatActivity {
                 rb.setId(q2 * 100 + idx+1);
                 rg.addView(rb,idx,lp);
                 final String fs =s;
+
                 rb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         RadioButton rb2 =(RadioButton)view;
                         if (rb2.isChecked()){
+                            bSave.setEnabled(true);
                             //    AddToAnswers(q2, rb2.getId());
                             Answer a=Answer.makeAnswer(fsid,q2,fs);
                             AddToResponseAnswers(a);

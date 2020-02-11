@@ -23,6 +23,7 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
+
             app:title="@string/app_name">
 
 
@@ -35,43 +36,18 @@
             <Button
                 android:id="@+id/btnNew"
                 android:layout_width="139dp"
-                android:layout_height="52dp"
-                android:layout_gravity="top"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
                 android:text="Create New Question"
                 android:textAllCaps="false"
                 android:typeface="normal" />
 
             <Button
-                android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="52dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:text="Submit Survey"
-                android:textAllCaps="false"
-                android:typeface="normal" />
-
-            <Button
-                android:id="@+id/btnShowAnswers"
-                android:layout_width="142dp"
-                android:layout_height="52dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Show Answers"
-                android:textAllCaps="false"
-                android:typeface="normal" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
                 android:id="@+id/bSurvey"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
                 android:text="Switch Survey"
                 android:textAllCaps="false"
                 android:typeface="normal" />
@@ -82,13 +58,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="25dp"
-                android:layout_weight="0"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
                 android:background="@drawable/rectangle"
                 android:inputType="number"
                 android:padding="5dp"
                 android:text=""
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorRed"
+                android:typeface="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:text="Submit Survey"
+                android:textAllCaps="false"
+                android:typeface="normal" />
+
+            <Button
+                android:id="@+id/btnShowAnswers"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Show Answers"
+                android:textAllCaps="false"
                 android:typeface="normal" />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>

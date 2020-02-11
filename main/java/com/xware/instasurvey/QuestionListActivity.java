@@ -16,16 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 //import android.support.design.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.Comparator;
 import java.util.Collections;
-import com.xware.instasurvey.dummy.DummyContent;
+
 import com.xware.instasurvey.Content.QuestionContent;
 import java.util.List;
 import java.util.ArrayList;
-import android.support.design.widget.CoordinatorLayout;
 
 /**
  * An activity representing a list of Questions. This activity
@@ -113,7 +111,11 @@ private List<Question> getQuestions(Integer sid){
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         QuestionContent.createQuestionContent(this);
         Collections.sort(QuestionContent.ITEMS,new SortById());
-       recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(new Header(),this, QuestionContent.ITEMS, mTwoPane));
+     //   QuestionContent.ITEMS.remove(0);
+
+      recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(new Header(),this, QuestionContent.ITEMS, mTwoPane));
+    //    recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, QuestionContent.ITEMS, mTwoPane));
+
     }
    public class SortById implements Comparator<QuestionContent.QuestionItem>{
        public int compare(QuestionContent.QuestionItem q1,QuestionContent.QuestionItem q2){
@@ -127,15 +129,22 @@ private List<Question> getQuestions(Integer sid){
 
         }
     }
+
     public class Header {
         //    More fields can be defined here after your need
         private String header;
         private String linebar;
 
         public Header(){
-            String pad6="Answers"+"                       ";
+            String pad6="Answers"+"                       "+"              ";
            setHeader("Survey Id|Quest Id|"+pad6 +"|Count");
-          setLineBar("______________________________________");
+            int l=   header.length();
+         //   StringBuilder sb =new StringBuilder();
+         //   for (int i=0;i<l; i++)
+           //     sb.append("-");
+       //     linebar=sb.toString();
+            setLineBar("---------------------------------------------------------------------------------");
+       //   setLineBar("______________________________________");
         }
 
         public String getHeader() {
@@ -151,6 +160,7 @@ private List<Question> getQuestions(Integer sid){
             this.linebar = linebar;
         }
     }
+
     /*
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -211,8 +221,15 @@ private List<Question> getQuestions(Integer sid){
                 super(itemView);
                 this.colHeader = (TextView)itemView.findViewById(R.id.colheader);
                this.linebar = (TextView)itemView.findViewById(R.id.linebar);
-            //   linebar.setText("------------------------------------------------");
-
+               /*
+                StringBuilder sb =new StringBuilder();
+int l =this.colHeader.length();
+                for (int i=0;i<l; i++)
+                    sb.append("-");
+                this.linebar.setText(sb.toString());
+                //     linebar=sb.toString();
+              linebar.setText("------------------------------------------------");
+*/
             }
         }
 
@@ -274,7 +291,7 @@ private List<Question> getQuestions(Integer sid){
             {
                 VHHeader VHheader = (VHHeader)holder;
                 VHheader.colHeader.setText(header.getHeader());
-                VHheader.linebar.setText(header.getLineBar());
+               VHheader.linebar.setText(header.getLineBar());
             }
             else if(holder instanceof VHItem)
             {
@@ -388,7 +405,7 @@ private List<Question> getQuestions(Integer sid){
 
         try{
             Context c =QuestionListActivity.this;
-            Intent i= new Intent(c,com.xware.instasurvey.HelpActivity.class);
+            Intent i= new Intent(c, HelpActivity.class);
             startActivity(i);
         }
         catch(Exception e){

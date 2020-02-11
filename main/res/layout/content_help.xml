@@ -1,11 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:background="@color/colorContent"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".HelpActivity"
-    tools:showIn="@layout/app_bar_help">
+    tools:showIn="@layout/activityhelp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorContent">
+    <TextView
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:text="STEP 1 - Create a Survey"/>
+
+
+    <TextView
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:ems="10"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal"
+        android:singleLine="false"
+        android:text="1)Click &quot; Create New Question&quot; . \n2)Enter a Survey Number. \n3)Enter a question Sequence(order it appears) within \n &#160;&#160;that survey. \n4) Enter a Question \n5) Enter up to 5 possible Answers for that question. \n6) Click the &quot;Save&quot; button. \n \n" />
+
+    <TextView
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+
+        android:text="STEP 2 - Have Others Take the Survey "
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/editText4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:ems="1"
+        android:enabled="false"
+        android:gravity="start|top"
+        android:singleLine="false"
+        android:text="1)Click &quot;Switch Survey&quot; \n2) Go out and ask people each question and click \n&#160;&#160;the answer that they choose. \n 3) Finish asking all the questions in the survey . \n 4) Click the &quot;Submit Survey&quot; button. \n 5) That is one person's survey response. \n \n"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/editText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+        android:text=  "STEP 3 - View All the Responses"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/editText6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+        android:gravity="start|top"
+        android:singleLine="false"
+        android:text=  "1) Click &quot;Show Answers&quot;. \n2) All answers will appear in a list showing the Survey Number,\n&#160;&#160; Question Number,Answer, and the number of people \n &#160;&#160;that chose that answer."
+        android:textColor="@color/colorPrimary"
+        android:textStyle="normal" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".HelpActivity"
+            android:label="Application Overview"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".QuestionListActivity"
             android:label="Answers Summary"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -37,9 +41,9 @@
             android:label="Add A Question to A Survey"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HelpActivity"
+            android:name=".HelpActivityNavigatorDrawer"
             android:label="@string/title_activity_help"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

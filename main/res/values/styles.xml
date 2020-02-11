@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:popupLayout">@style/PopupMenu</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,6 +18,20 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.PopupOverlay1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:popupBackground">@color/colorOrange</item>
+    </style>
+    <!-- The beef: background color for Action Bar overflow menu -->
+    <style name="AppTheme.PopupOverlay2" parent="android:Widget.Holo.Light.ListPopupWindow">
+
+        <item name="android:popupLayout">@style/AppTheme</item>
+    </style>
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">@android:color/holo_red_dark</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:background">@color/colorOrange</item>
+        <item name="android:backgroundTint">@color/colorRed</item>
+    </style>
 </resources>

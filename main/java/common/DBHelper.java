@@ -267,13 +267,13 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
         HashMap<Integer,String> hm = new HashMap<Integer,String>();
         int i=0;
         String pad30 =String.format("%1$" + 30 + "s", 'x').replace('x', '_');
-        String line45="___________________________________________" ;
+    //    String line45="___________________________________________" ;
 
         String pad6="Answers"+padArray[23];
         c.moveToFirst();
         try {
-            hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
-            hm.put(1,line45);
+       //     hm.put(0,"Survey Id|Quest Id|"+pad6 +"|Count");
+       //     hm.put(1,line45);
             i=2;
             while (!c.isAfterLast()) {
         //        Integer sid=c.getInt(0);

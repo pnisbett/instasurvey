@@ -45,7 +45,6 @@
                 android:id="@+id/etsid"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
-
                 android:inputType="number"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/rectangle"
@@ -54,7 +53,7 @@
             <TextView
                 android:id="@+id/tvqseq"
                 android:textColor="@color/colorPrimary"
-                android:layout_width="50dp"
+                android:layout_width="350dp"
                 android:layout_height="25dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="20dp"
@@ -74,7 +73,7 @@
             <TextView
                 android:id="@+id/tvq"
                 android:textColor="@color/colorPrimary"
-                android:layout_width="100dp"
+                android:layout_width="350dp"
                 android:layout_height="25dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="20dp"
@@ -99,7 +98,6 @@
                 android:layout_height="25dp"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="20dp"
-
                 android:text="Answers (Up to 5) " />
 
             <TextView
