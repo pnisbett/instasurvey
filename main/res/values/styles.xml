@@ -18,7 +18,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.PopupOverlay1" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:popupBackground">@color/colorOrange</item>
@@ -28,6 +28,7 @@
 
         <item name="android:popupLayout">@style/AppTheme</item>
     </style>
+
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">@android:color/holo_red_dark</item>
         <item name="android:padding">0dp</item>
