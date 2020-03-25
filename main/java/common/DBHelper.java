@@ -16,11 +16,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet.*;
+import java.util.Set;
+import java.util.Map.*;
 import com.xware.instasurvey.Question;
+import com.xware.instasurvey.Answer;
 import org.apache.commons.lang3.StringUtils;
+import java.io.File;
 //import androidx.room.query;
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -179,6 +188,54 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
 
     }
 
+    public ArrayList<Question> getAllQuestions(){
+        Cursor c=null;
+        ArrayList<Question> alq = new ArrayList<Question>();
+        try {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] sa= {};
+        int ct=-1;
+        c =db.rawQuery("select * from questions  order by question_seq",sa);
+        //   Cursor c= db.rawQuery("select * from questions",null);// where survey_id = ?",sa);
+        if (c != null) {
+            ct= c.getCount();
+        }
+        // primary key autoincrement,survey_id INTEGER,question TEXT,answer1 TEXT,answer2 TEXT,answer3 TEXT,answer4 TEXT,answer5 TEXT
+
+        int cc = c.getColumnCount();
+        Question[] qa = new Question[ct];
+
+        c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                int id=c.getInt(0);
+                int sid=c.getInt(1);
+                int qsid=c.getInt(2);
+                //    int i3=c.getInt(2);
+                String sq =c.getString(3);
+                String sa1 =c.getString(4);
+                String sa2 =c.getString(5);
+                String sa3 =c.getString(6);
+                String sa4 =c.getString(7);
+                String sa5 =c.getString(8);
+                Question q = new Question(id,sid,qsid,sq,sa1,sa2,sa3,sa4,sa5);
+
+                alq.add(q);
+                c.moveToNext();
+            }
+        }
+        catch(Exception e) {
+            Log.e("edtabase error getQeustions" ,e.getMessage());
+        }
+        finally
+        {
+            c.close();
+        }
+        return alq;
+        //return alq.toArray(qa);
+
+    }
+
 
     public ArrayList<Question> getResponses(int surveyId){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -213,6 +270,39 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
         return alq;
         //return alq.toArray(qa);
 
+    }
+    public ArrayList<Answer> getAllAnswers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] sa = {};
+        int ct = -1;
+        Cursor c = db.rawQuery("select * from answers  order by sid,question_seq", sa);
+        //   Cursor c= db.rawQuery("select * from questions",null);// where survey_id = ?",sa);
+        if (c != null) {
+            ct = c.getCount();
+        }
+        // primary key autoincrement,survey_id INTEGER,question TEXT,answer1 TEXT,answer2 TEXT,answer3 TEXT,answer4 TEXT,answer5 TEXT
+
+        int cc = c.getColumnCount();
+        Question[] qa = new Question[ct];
+        ArrayList<Answer> alq = new ArrayList<Answer>();
+        c.moveToFirst();
+        try {
+            while (!c.isAfterLast()) {
+                int id = c.getInt(0);
+                int sid = c.getInt(1);
+                int qsid = c.getInt(2);
+                //    int i3=c.getInt(2);
+                String answer = c.getString(3);
+                Answer a = new Answer(sid, qsid, answer);
+                alq.add(a);
+
+            }
+        } catch (Exception e) {
+            Log.e("edtabase error getQeustions", e.getMessage());
+        } finally {
+            c.close();
+        }
+        return alq;
     }
     /*
     public  HashMap<Integer,String> getAllQuestions(){
@@ -252,7 +342,7 @@ Log.e("edtabase error getQeustions" ,e.getMessage());
     }
 
      */
-    public  HashMap<Integer,String> getAllResponses(){
+    public  HashMap<Integer,String> getAllResponsesString(){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] sa= {0+""};
         Cursor c= db.rawQuery("select survey_id, question ,answer1, count(answer1) 'cnt' from answers group by survey_id,question,answer1",new String[0]);
@@ -304,7 +394,96 @@ String ansera = StringUtils.rightPad(answer , aoffset," ");
         //return alq.toArray(qa);
 
     }
+    public  ArrayList<Answer> getAllResponses(){
+        ArrayList<Answer> ala= new ArrayList<Answer>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] sa= {0+""};
+        Cursor c= db.rawQuery("select id,survey_id, question ,answer1, count(answer1) 'cnt' from answers group by survey_id,question,answer1",new String[0]);
+        //   String[] sa=new String[0];
+        Cursor c1= db.rawQuery("select * from answers where survey_id > ? order by survey_id,question", sa);
+        // survey_id INTEGER,question_seq INTEGER,question INTEGER,answer1 TEXT
+        //    Cursor c= db.SimpleSQLiteQuery("select survey_id, question ,answer1, count(answer1) cnt from answers group by survey_id,question,answer1");
 
+        // cols = id INTEGER primary key autoincrement,survey_id INTEGER,question INTEGER,answer1 TEXT";
+        int ct=c.getCount();
+        int cc = c.getColumnCount();
+        HashMap<Integer,String> hm = new HashMap<Integer,String>();
+        int i=0;
+
+        c.moveToFirst();
+        try {
+
+            while (!c.isAfterLast()) {
+
+                Integer id =c.getInt(0);
+                Integer sid =c.getInt(1);
+
+                Integer quid  =c.getInt(1);
+
+                String answer =c.getString(2);
+
+               Answer a = new Answer(id,sid,quid,answer);
+               ala.add(a);
+                //   Integer qcount =c.getInt(3);
+
+                i++;
+                c.moveToNext();
+            }
+        } finally {
+            c.close();
+        }
+        return ala;
+        //return alq.toArray(qa);
+
+    }
+
+    public String writeAllAnswersToXML(){
+        ArrayList<Answer> ala =getAllResponses();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<answers>");
+        for (Answer a:ala){
+
+            Integer i=a.getId();
+            Integer sid=a.getSurveyId();
+            Integer qid=a.getQuestionId();
+            String s=(a.getAnswer());
+            sb.append("<id>"+i +"</id>+'\n' ");
+            sb.append("<sid>"+sid +"</sid>+'\n'");
+            sb.append("<qid>"+qid +"</qid>+'\n'");
+            sb.append("<answer>"+s +"</answer>+'\n'");
+
+        }
+        sb.append("</answers>");
+        return  sb.toString();
+    }
+    public String writeAllQuestionsToXML(){
+        ArrayList<Question> aq =getAllQuestions();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("<questions>");
+        for (Question q:aq){
+            Integer id=q.getId();
+            Integer sid= q.getSurveyId();
+            String question= q.getQuestion();
+            ArrayList<String> answers= q.getAnswers();
+          //  Integer i=(Integer)me.getKey();
+           // String s=(String)me.getValue();
+            sb.append("<id>"+id +"</id>"+'\n');
+            sb.append("<sid>"+id +"</sid>"+'\n');
+            sb.append("<question>"+question +"</question>"+'\n');
+            sb.append("<answers>");
+            for (String a:answers){
+                sb.append("<answer>");
+                sb.append(a);
+                sb.append("</answer>");
+
+            }
+            sb.append("</answers>");
+        }
+        sb.append("</questions>");
+        return  sb.toString();
+    }
     private String makePadding(int offset){
         StringBuilder sb = new StringBuilder();
 
@@ -324,5 +503,28 @@ String ansera = StringUtils.rightPad(answer , aoffset," ");
             sa[i-1] = sb.toString();
         }
         return sa;
+    }
+
+    public File writeXMLFile(Context c,String xmlFile) {
+        try {
+       //     FileOutputStream fos = c.openFileOutput(xmlFile, 1);
+            File f = new File("");
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw);
+              bw.write(xmlFile);
+              bw.flush();
+              bw.close();
+              fw.flush();
+              fw.close();
+            return f;
+        } catch (FileNotFoundException f) {
+
+
+        }
+        catch (java.io.IOException o) {
+
+
+        }
+        return null;
     }
 }

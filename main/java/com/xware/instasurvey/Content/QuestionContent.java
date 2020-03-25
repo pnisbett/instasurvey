@@ -55,7 +55,7 @@ public class QuestionContent  {
         DBHelper dh = new DBHelper(c);
     //    dh.getQuestions();
      //  Map<Integer, QuestionContent.QuestionItem> qc=dh.getAllQuestions();
-        Map<Integer, String> ac= dh.getAllResponses();
+        Map<Integer, String> ac= dh.getAllResponsesString();
         // return ac;
 
         int cnt =ac.size();

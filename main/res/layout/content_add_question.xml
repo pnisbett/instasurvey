@@ -81,7 +81,7 @@
 
             <EditText
                 android:id="@+id/etq"
-                android:layout_width="150dp"
+                android:layout_width="500dp"
                 android:layout_height="25dp"
                 android:ems="10"
                 android:inputType="text"
